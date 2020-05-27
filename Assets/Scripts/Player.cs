@@ -6,11 +6,12 @@ public class Player : MonoBehaviour
     public float speed = 10;
     public float gravity = 10;
     public float maxVelocityChange = 10; 
+    public float jumpHeight = 2;
     private bool grounded;
 
     
     private bool dead; //a true or false call
-    public int health;    
+    public int health;     
     private Transform PlayerTransform;
     private Rigidbody _rigidbody;
 
@@ -40,11 +41,22 @@ public class Player : MonoBehaviour
         velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
         velocityChange.y = 0;
         _rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
-        print(_rigidbody.velocity);
+        
+        if(Input.GetButton("Jump")){
+            _rigidbody.velocity = new Vector3(velocity.x, CalculateJump(),velocity.z); 
+    
+        }
+        _rigidbody.AddForce(new Vector3(0, -gravity * _rigidbody.mass, 0));
         
         grounded = false;
+
         
-        
+    }
+
+    float CalculateJump(){
+        float Jump = Mathf.Sqrt(2*jumpHeight*gravity);
+
+        return Jump;
     }
 
     void OnCollisionStay(){
