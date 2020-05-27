@@ -53,6 +53,12 @@ public class Player : MonoBehaviour
 
         
     }
+    void Update()
+    {
+        if (health < 1){
+            Application.LoadLevel("Test");
+        }
+    }
 
     float CalculateJump(){
         float Jump = Mathf.Sqrt(2*jumpHeight*gravity);
