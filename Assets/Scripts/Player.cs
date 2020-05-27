@@ -7,9 +7,10 @@ public class Player : MonoBehaviour
     public float gravity = 10;
     public float maxVelocityChange = 10; 
     public float jumpHeight = 2;
+    public int Points = 0;
     private bool grounded;
 
-    
+      
     private bool dead; //a true or false call
     public int health;     
     private Transform PlayerTransform;
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
         velocityChange.y = 0;
         _rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
         
-        if(Input.GetButton("Jump")){
+        if(Input.GetButton("Jump") && grounded == true){
             _rigidbody.velocity = new Vector3(velocity.x, CalculateJump(),velocity.z); 
     
         }
@@ -62,5 +63,13 @@ public class Player : MonoBehaviour
     void OnCollisionStay(){
         grounded = true;
 
+    }
+
+    void OnTriggerEnter(Collider Buddy){
+        if(Buddy.tag == "Coin")
+        {
+            Points = Points + 5;
+            Destroy(Buddy.gameObject);
+        }
     }
 }
